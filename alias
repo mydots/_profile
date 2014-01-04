@@ -1,0 +1,163 @@
+# Aliases
+# =======
+
+# Make destructive commands a little safer.
+#alias rm="rm -i"
+alias mv="mv -i"
+alias cp="cp -i"
+
+# Make human readable output default for a few commands.
+alias df="df -h"
+alias du="du -sh"
+
+# Map vi to vim
+alias vi="vim"
+
+# 'ls' Aliases. Colourise output by default.
+# long:
+alias l="ls"
+alias ll="ls -lh"
+alias lll="ls -lh | less"
+
+# 1:
+alias l1="ls -1"
+alias l1l="ls -1 | less"
+
+# all:
+alias la="ls -a"
+alias lla="ls -lah"
+alias llahl="ls -lah | less"
+alias lal="ls -a | less"
+
+# 1 & all:
+alias l1a="ls -1a"
+alias l1al="ls -1a | less"
+
+alias mplayer="mplayer -fs -zoom"
+
+alias be="bundle exec "
+
+# Functions
+# =========
+
+# forever() executes its argument in an infinite loop. Useful for
+# monitoring things. Note it will not work with aliases.
+forever() {
+	while true; do
+		clear
+		$@
+		sleep 1
+	done
+}
+
+# Overwrite svn diff to get colors 
+svn() {
+	if [ "$1" = "diff" ]; then
+		/usr/bin/svn "$@" | vim -R -c 'set nonu' -
+	else
+		/usr/bin/svn "$@"
+	fi
+}
+
+# Overwrite diff to have same output as svn diff and colors
+diff() {
+	/usr/bin/diff -u "$@" | vim -R -c 'set nonu' -
+}
+
+cal(){
+	if [ "$1" = `date +%Y` ]; then 
+		/usr/bin/cal $1 | sed -e "s/$(date +%e) /`echo -e \\\033\[31m`&`echo -e \\\033\[0m`/g" -e "s/$(date +%B)/`echo -e \\\033\[5\;33m`&`echo -e \\\033\[0m`/g"
+	elif [ $# = 0 ]; then 
+		/usr/bin/cal | awk '{ print " "$0; getline; print " Mo Tu We Th Fr Sa Su"; getline; if (substr($0,1,2) == " 1") print "                    1 "; do { prevline=$0; if (getline == 0) exit; print " " substr(prevline,4,17) " " substr($0,1,2) " "; } while (1) }' | sed -E '1,$'"s/(^|[^0-9])($(date +%e))([^0-9]|$)/\1$(echo -e '\033[1;31m')\2$(echo -e '\033[0m')\3/";
+	else 
+		/usr/bin/cal "$@";
+	fi
+}
+
+notify()
+{
+    # run a subshell in the foreground in order to protect
+    # the current (shell) process from the second exec
+    (
+        # fork another shell in the background
+        exec $SHELL -c '
+            # wait for parent to exit
+            while [ `ps -o ppid= $$` -ne 1 ] ; do
+                sleep 1;
+            done; 
+            # echo an alarm escape to the terminal
+            echo -ne "\a" \
+        ' &
+
+        # execute the supplied command
+        # this replaces the subshell process
+        exec "$@"
+    )
+}
+
+# Make directory and move into it
+mkcd(){
+	mkdir -p "$@" && eval cd "\"\$$#\"";
+}
+
+git_diff(){
+	git diff --no-ext-diff -w "$@" | vim -R -
+}
+
+diffdir(){
+	vimdiff <(cd $1 && find . | sort) <(cd $2 && find . | sort)
+}
+
+# extract files. Ignore files with improper extensions.
+extract(){
+	local x
+	ee() { # echo and execute
+		echo "$@"
+		$1 "$2"
+	}
+	if [ -f $1 ] ; then
+		case $1 in
+			*.tar.bz2)   ee "tar xvjf" $1    ;;
+			*.tar.gz)    ee "tar xvzf" $1    ;;
+			*.bz2)       ee "bunzip2" $1     ;;
+			*.rar)       ee "unrar x" $1       ;;
+			*.gz)        ee "gunzip" $1      ;;
+			*.tar)       ee "tar xvf" $1     ;;
+			*.tbz2)      ee "tar xvjf" $1    ;;
+			*.tgz)       ee "tar xvzf" $1    ;;
+			*.zip)       ee "unzip" $1       ;;
+			*.Z)         ee "uncompress" $1  ;;
+			*.7z)        ee "7z x" $1        ;;
+			*)           echo "don't know how to extract '$1'..." ;;
+		esac
+	else
+		echo "'$1' is not a valid file!"
+	fi
+}
+
+up(){
+	local d=""
+	limit=$1
+	for ((i=1 ; i <= limit ; i++))
+		do
+			d=$d/..
+		done
+	d=$(echo $d | sed 's/^\///')
+	if [ -z "$d" ]; then
+		d=..
+	fi
+	cd $d
+}
+
+psgrep(){                                         
+   ps aux | grep $(echo $1 | sed "s/^\(.\)/[\1]/g")
+ }                                                 
+
+t() {
+  ps aux | grep '[z]eus slave: boot' > /dev/null 2>&1
+  if [[ $? -eq 0 ]]; then
+    clear; zeus test $@
+  else
+    clear; bundle exec ruby -Itest $@
+  fi
+}
