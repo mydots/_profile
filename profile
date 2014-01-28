@@ -136,7 +136,8 @@ set -o vi
 # Set history length
 export HISTFILESIZE=3000
 
-
+# Use vim as default pager
+export MANPAGER="/bin/sh -c \"col -b | vim -c 'nnoremap <space> <C-F>|nnoremap q :q!<cr>|set ft=man ts=8 nomod nolist nonu noma' -\""
 
 # Load specific files
 . ~/_dotFiles/profile/alias
