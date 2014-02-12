@@ -40,6 +40,15 @@ alias be="bundle exec "
 # Functions
 # =========
 
+sshfs(){
+  FOLDER=$(echo ${@} | cut -d ':' -f 1)
+  mkdir -p /Volumes/${FOLDER}
+  `which sshfs` -o transform_symlinks $@ /Volumes/${FOLDER}
+  echo "Volume mounted on /Volumes/${FOLDER}"
+  pushd /Volumes/${FOLDER}
+}
+alias unmount_all="pushd ~/ &>/dev/null && find /Volumes -mindepth 1 -maxdepth 1 -type d -exec umount {} \; && popd &>/dev/null"
+
 # forever() executes its argument in an infinite loop. Useful for
 # monitoring things. Note it will not work with aliases.
 forever() {
