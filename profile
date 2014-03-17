@@ -35,7 +35,7 @@ if [[ $os = "Darwin" ]]; then
 	PATH=/opt/local/bin:/opt/local/sbin:$PATH
 
   # Android SDK
-  PATH="/Applications/Android/sdk/platform-tools:/Applications/Android/sdk/tools/:$PATH"
+  PATH="/Applications/Android/sdk/platform-tools:/Applications/Android/sdk/tools:$PATH"
 
 	# For bash completion. Need to install from ports bash-completion
 	if [ -f /opt/local/etc/profile.d/bash_completion ]; then
@@ -80,7 +80,7 @@ if [[ $os = "OpenBSD" || $os = "Linux" ]]; then
 fi
 
 # Setup the PATH.
-PATH=~/_dotFiles/profile/bin/:$PATH
+PATH=~/.dotFiles/profile/bin:$PATH
 export PATH
 
 # Setup a colorized prompt, the way I like it
@@ -119,7 +119,7 @@ export GREP_OPTIONS='--color=auto' GREP_COLOR='35'
 export HISTCONTROL=ignoredups:erasedups
 
 # Ignore commands from history
-export HISTIGNORE="history:ls*:ll:lla:l1:pwd:clear"
+export HISTIGNORE="history:ls:ll:lla:l1:pwd:clear"
 
 # Save History
 export HISTFILE=~/.bash_history
@@ -140,9 +140,9 @@ export HISTFILESIZE=3000
 export MANPAGER="/bin/sh -c \"col -b | vim -c 'nnoremap <space> <C-F>| nnoremap q :q<cr>| set ft=man ts=8 nomod nolist nonu noma' -\""
 
 # Load specific files
-. ~/_dotFiles/profile/alias
+. ~/.dotFiles/profile/alias
 . ~/.keys
-. ~/_dotFiles/git/git-completion.bash
+. ~/.dotFiles/git/git-completion.bash
 
 
 # Keep the environment clean :P.
