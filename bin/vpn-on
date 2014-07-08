@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+#read -s -p "Password: " vpn_password
+vpn_password=`security find-internet-password -g -a $(echo ${EMAIL_0}) 2>&1 | perl -e 'if (<STDIN> =~ m/password: "(.*)"$/ ) { print $1; }'`
+
+SCRIPT=$(cat <<-EOF
+on run argv
+  tell application "System Events"
+    tell current location of network preferences
+      set VPN to service "Chicago" -- your VPN name here
+      set isConnected to connected of current configuration of VPN
+
+      if isConnected then
+        return
+      end if
+
+      if exists VPN then connect VPN
+
+      delay 1
+
+      if length of argv is 1 then
+        keystroke tab
+        keystroke item 1 of argv
+        keystroke tab
+        keystroke "$vpn_password"
+      else
+        keystroke "$vpn_password"
+      end if
+
+      keystroke return
+    end tell
+  end tell
+end run
+EOF
+)
+
+/usr/bin/env osascript -e "$SCRIPT" $1
