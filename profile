@@ -1,9 +1,9 @@
 # Global profile. Override with your own ~/.profile.
 
 # Start tmux if it exists
-if command -v tmux>/dev/null; then
-  [[ ! $TERM =~ screen ]] && [ -z $TMUX ] && exec tmux
-fi
+# if command -v tmux>/dev/null; then
+#   [[ ! $TERM =~ screen ]] && [ -z $TMUX ] && exec tmux
+# fi
 
 #UID="$(id -u)"
 # Environment
@@ -50,6 +50,10 @@ if [[ $os = "Darwin" ]]; then
 	# SSH Host bash completion
 	[ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2)" scp sftp ssh
 
+  # Git bash completion (from homebrew)
+  if [ -f $(brew --prefix)/etc/bash_completion ]; then
+    . $(brew --prefix)/etc/bash_completion
+  fi
 
 elif [[ $os = "Linux" ]]; then
 
@@ -147,7 +151,7 @@ export MANPAGER="/bin/sh -c \"col -b | vim -c 'nnoremap <space> <C-F>| nnoremap 
 # Load specific files
 . ~/.dotFiles/profile/alias
 . ~/.keys
-. ~/.dotFiles/git/git-completion.bash
+
 
 
 # Keep the environment clean :P.
