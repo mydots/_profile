@@ -28,18 +28,12 @@ export LPURPLE="[1;35m"
 export  YELLOW="[1;33m" 
 export   WHITE="[1:37m" 
 export DEFAULT="[0;39m" 
-                           
-
 
 if [[ $os = "Darwin" ]]; then
-	# Setup the PATH.
-	PATH="/usr/local/bin:/usr/local/sbin:/usr/local/mysql/bin:$PATH"
-
   # Git bash completion (from homebrew)
   if [ -f $(brew --prefix)/etc/bash_completion ]; then
     . $(brew --prefix)/etc/bash_completion
   fi
-
 elif [[ $os = "Linux" ]]; then
 
 	alias ls="ls --color" # Get colors 
@@ -160,10 +154,6 @@ unset BLACK BLUE GREEN CYAN RED PURPLE BROWN LGREY GREY \
 # export   WHITE="\[[1:37m\]"
 # export DEFAULT="\[[0;39m\]"
 
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
-
-export PATH="/Applications/Postgres.app/Contents/MacOS/bin:$PATH"   
 eval "$(rbenv init -)"
 
 export EDITOR=vim
