@@ -11,7 +11,6 @@
 
 os="$(uname -s)"
 
-
 # Escape sequence done by tying: Ctrl+v+[ in vim
 # Define color escape sequences.
 export    BLUE="[0;34m" 
@@ -36,16 +35,8 @@ if [[ $os = "Darwin" ]]; then
 	# Setup the PATH.
 	PATH="/usr/local/bin:/usr/local/sbin:/usr/local/mysql/bin:$PATH"
 
-	# MacPorts Installer addition 
-	PATH=/opt/local/bin:/opt/local/sbin:$PATH
-
   # Android SDK
   PATH="/Applications/Android/sdk/platform-tools:/Applications/Android/sdk/tools:$PATH"
-
-	# For bash completion. Need to install from ports bash-completion
-	if [ -f /opt/local/etc/profile.d/bash_completion ]; then
-		. /opt/local/etc/profile.d/bash_completion
-	fi
 
 	# SSH Host bash completion
 	[ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2)" scp sftp ssh
@@ -151,8 +142,6 @@ export MANPAGER="/bin/sh -c \"col -b | vim -c 'nnoremap <space> <C-F>| nnoremap 
 # Load specific files
 . ~/.dotFiles/profile/alias
 . ~/.keys
-
-
 
 # Keep the environment clean :P.
 unset BLACK BLUE GREEN CYAN RED PURPLE BROWN LGREY GREY \
