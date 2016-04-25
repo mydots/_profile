@@ -35,12 +35,6 @@ if [[ $os = "Darwin" ]]; then
 	# Setup the PATH.
 	PATH="/usr/local/bin:/usr/local/sbin:/usr/local/mysql/bin:$PATH"
 
-  # Android SDK
-  PATH="/Applications/Android/sdk/platform-tools:/Applications/Android/sdk/tools:$PATH"
-
-	# SSH Host bash completion
-	[ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2)" scp sftp ssh
-
   # Git bash completion (from homebrew)
   if [ -f $(brew --prefix)/etc/bash_completion ]; then
     . $(brew --prefix)/etc/bash_completion
