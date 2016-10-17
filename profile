@@ -67,6 +67,12 @@ if [[ $os = "OpenBSD" || $os = "Linux" ]]; then
 	alias mplayer="mplayer -fs -zoom"	# Get mplayer to play full screen
 fi
 
+if command -v go>/dev/null; then
+	export GOPATH=${HOME}/Dev/Go
+	export PATH=$PATH:${GOPATH}/bin
+fi
+
+
 # Setup the PATH.
 PATH=~/.dotFiles/profile/bin:$PATH
 export PATH
