@@ -162,15 +162,6 @@ psgrep(){
    ps aux | grep $(echo $1 | sed "s/^\(.\)/[\1]/g")
  }                                                 
 
-t() {
-  ps aux | grep '[z]eus slave: boot' > /dev/null 2>&1
-  if [[ $? -eq 0 ]]; then
-    clear; zeus test $@
-  else
-    clear; bundle exec ruby -Itest $@
-  fi
-}
-
 # Jumping with symlinks
 # http://jeroenjanssens.com/2013/08/16/quickly-navigate-your-filesystem-from-the-command-line.html
 
