@@ -182,8 +182,6 @@ function marks {
 
 # End of jumping with symlinks
 
-
-
 func mfaws() {
   # docker run -it -v ~/.aws/:/root/.aws pbar1/mfaws:latest --force -t $(ykman oath code | awk '{print $4}')
   $GOPATH/bin/mfaws --force -t $(/usr/local/bin/ykman oath code 'Amazon Web Services' -s)

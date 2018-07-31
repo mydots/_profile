@@ -128,7 +128,7 @@ export PROMPT_COMMAND="history -a; history -c; history -r; history -a; history -
 set -o vi
 
 # Set history length
-export HISTFILESIZE=3000
+#export HISTFILESIZE=3000
 
 # Use vim as default pager
 export MANPAGER="/bin/sh -c \"col -b | vim -c 'nnoremap <space> <C-F>| nnoremap q :q<cr>| set ft=man ts=8 nomod nolist nonu noma' -\""
@@ -164,3 +164,4 @@ unset BLACK BLUE GREEN CYAN RED PURPLE BROWN LGREY GREY \
 eval "$(rbenv init -)"
 
 export EDITOR=vim
+export PATH="/usr/local/opt/gettext/bin:$PATH"
