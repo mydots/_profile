@@ -135,6 +135,7 @@ export MANPAGER="/bin/sh -c \"col -b | vim -c 'nnoremap <space> <C-F>| nnoremap 
 
 # Load specific files
 . ~/.dotFiles/profile/alias
+. ~/.dotFiles/profile/alias.bash
 . ~/.keys
 
 # Keep the environment clean :P.
