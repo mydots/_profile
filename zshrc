@@ -18,8 +18,8 @@ setopt HIST_FIND_NO_DUPS #ignore duplicates when searching
 setopt HIST_REDUCE_BLANKS # removes blank lines from history
 
 ### Auto correction
-setopt CORRECT
-setopt CORRECT_ALL
+# setopt CORRECT
+# setopt CORRECT_ALL
 
 ### COMPLETION
 autoload -Uz compinit && compinit
