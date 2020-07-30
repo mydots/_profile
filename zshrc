@@ -1,3 +1,5 @@
+fpath=($fpath ~/.zshcompletions)
+
 # Restore defaults
 emulate -LR zsh
 
@@ -43,6 +45,7 @@ PATH=/usr/local/sbin:$PATH
 if (($+commands[go])); then
 	export GOPATH=${HOME}/Dev/Go
 	PATH=$PATH:${GOPATH}/bin
+  export GO111MODULE=on
 fi
 
 if (($+commands[rbenv])); then
