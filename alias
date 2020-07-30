@@ -68,11 +68,6 @@ svn() {
 	fi
 }
 
-# Overwrite diff to have same output as svn diff and colors
-diff() {
-	/usr/bin/diff -u "$@" | vim -R -c 'set nonu' -
-}
-
 cal(){
 	if [ "$1" = `date +%Y` ]; then 
 		/usr/bin/cal $1 | sed -e "s/$(date +%e) /`echo -e \\\033\[31m`&`echo -e \\\033\[0m`/g" -e "s/$(date +%B)/`echo -e \\\033\[5\;33m`&`echo -e \\\033\[0m`/g"
