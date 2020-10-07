@@ -191,3 +191,32 @@ func mfaws() {
 function now(){
   date -u +"%Y-%m-%dT%H:%M:%SZ"
 }
+
+test_all() { 
+  export BRANCH=$(git branch --show-current)
+  git branch ${BRANCH}-debug master && git checkout ${BRANCH}-debug
+  for i in $(git log --reverse ${BRANCH}...HEAD --oneline | awk '{print $1}'); do 
+    git cherry-pick $i && git push
+  done
+  unset BRANCH
+}
+
+tor() { 
+  socat TCP-LISTEN:6000,reuseaddr,fork UNIX-CLIENT:\"$DISPLAY\" &
+  TOR_PID=$!
+  docker run -e DISPLAY=host.docker.internal:0 -v /tmp/.X11-unix:/tmp/.X11-unix jess/tor-browser
+  kill ${TOR_PID}
+}
+
+alias awslocal="aws --endpoint-url http://0.0.0.0:4566"
+
+function ssh_ec2(){
+    AWS_USER=${AWS_USER=ec2-user}
+    TEMP=$(mktemp)
+    aws ec2 describe-instances --instance-ids "$1" > $TEMP || echo "Fail to get $1" || return
+    AVAILABILITY_ZONE=$(cat $TEMP |jq ".Reservations[].Instances[].Placement.AvailabilityZone" -r)
+    PUBLIC_IP=$(cat $TEMP | jq ".Reservations[].Instances[].NetworkInterfaces[].Association.PublicIp" -r)
+    aws ec2-instance-connect send-ssh-public-key --region $AWS_DEFAULT_REGION --instance-id $1 --availability-zone $AVAILABILITY_ZONE --instance-os-user $AWS_USER --ssh-public-key file://$HOME/.ssh/id_rsa.pub || echo "Failed to send ssh key" || return
+    echo "Logging in $PUBLIC_IP as $AWS_USER"
+    ssh $AWS_USER@$PUBLIC_IP -v && echo "Install apt-get install -y ec2-instance-connect at $1"
+}
