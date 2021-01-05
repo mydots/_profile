@@ -188,3 +188,8 @@ func mfaws() {
   # docker run -it -v ~/.aws/:/root/.aws pbar1/mfaws:latest --force -t $(ykman oath code | awk '{print $4}')
   $GOPATH/bin/mfaws --force -t $(/usr/local/bin/ykman oath code 'Amazon Web Services' -s)
 }
+
+# now prints out the current time in the RFC3339 format
+function now(){
+  date -u +"%Y-%m-%dT%H:%M:%SZ"
+}
