@@ -105,3 +105,5 @@ export CLICOLOR=1
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git --exclude node_modules'
+
+export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
