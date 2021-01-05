@@ -98,6 +98,7 @@ export EDITOR=vim
 # VI style editing in BASH
 set -o vi
 
+export CLICOLOR=1
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git --exclude node_modules'
